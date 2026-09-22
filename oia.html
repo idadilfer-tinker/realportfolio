@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OIA AI-led Surgery Concierge · Case Study · Ida Tinker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Tinos:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#FDFDFC;--fg:#141314;--fg2:#4a4642;--fg3:#8a857e;--accent:#C15A38;--accent2:#a8461f;
+--border:#E3DFD7;--border2:#EDEAE4;
+--max:1100px;--gutter:clamp(24px,5vw,80px);
+--font-body:'Libre Franklin',sans-serif;--font-display:'Tinos',serif;}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.back-nav{position:fixed;top:0;left:0;right:0;z-index:101;height:60px;background:rgba(253,253,252,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 var(--gutter);gap:16px}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--fg2);text-decoration:none;font-size:13px;transition:color .18s}
+.back-link:hover{color:var(--fg)}.back-link svg{width:16px;height:16px}
+.back-nav-title{font-size:13px;color:var(--fg3);font-style:italic}
+.back-nav-right{margin-left:auto}
+.visit-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid rgba(193,90,56,.35);padding:6px 14px;border-radius:6px;transition:background .18s}
+.visit-link:hover{background:rgba(193,90,56,.1)}.visit-link svg{width:11px;height:11px}
+
+/* ── sticky audio-description bar (docks under back-nav) ── */
+.audio-bar{position:sticky;top:60px;z-index:99;background:rgba(253,253,252,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.audio-bar-inner{max-width:var(--max);margin:0 auto;padding:12px var(--gutter);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.audio-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);white-space:nowrap}
+.audio-controls{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.audio-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:border-color .15s}
+.audio-btn:hover{border-color:var(--accent2)}
+.audio-progress{flex:1 1 140px;min-width:90px;height:3px;background:var(--border);border-radius:2px;cursor:pointer;position:relative}
+.audio-progress-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:var(--accent);border-radius:2px}
+.audio-time{font-size:11.5px;color:var(--fg3);white-space:nowrap;min-width:76px}
+.read-toggle{margin-left:auto;font-size:12px;border:1px solid var(--border);border-radius:999px;padding:7px 14px;background:none;color:var(--fg2);cursor:pointer;white-space:nowrap;transition:border-color .15s,background .15s,color .15s}
+.read-toggle:hover{border-color:var(--accent2)}
+.read-toggle.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.audio-summary{display:none;background:#F5F2EC;border-bottom:1px solid var(--border)}
+.audio-summary.open{display:block}
+.audio-summary-inner{max-width:var(--max);margin:0 auto;padding:32px var(--gutter) 40px}
+.audio-summary-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:4px}
+.audio-summary-hint{font-size:12.5px;color:var(--fg3);margin-bottom:20px;max-width:560px}
+.transcript{max-width:700px;border-top:1px solid var(--border2)}
+.transcript-item{border-bottom:1px solid var(--border2)}
+.transcript-item summary{list-style:none;cursor:pointer;padding:16px 2px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.transcript-item summary::-webkit-details-marker{display:none}
+.transcript-item summary .t-hint{font-size:13.5px;font-weight:600;color:var(--fg)}
+.transcript-item summary .t-sub{font-size:12px;color:var(--fg3);font-weight:400;margin-top:2px}
+.transcript-item summary .t-mark{font-size:16px;color:var(--fg3);flex:0 0 auto;transition:transform .15s}
+.transcript-item[open] summary .t-mark{transform:rotate(45deg);color:var(--accent2)}
+.transcript-item[open] summary{padding-bottom:8px}
+.transcript-body{padding:0 2px 20px;font-size:13.5px;line-height:1.85;color:var(--fg2);max-width:660px}
+@media(max-width:640px){.audio-label{display:none}.read-toggle{margin-left:0}}
+
+.cs-hero{padding:150px var(--gutter) 40px;max-width:var(--max);margin:0 auto}
+.cs-eyebrow{font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+.cs-title{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,5rem);font-weight:400;line-height:1.05;letter-spacing:-.03em;margin-bottom:20px}
+.cs-title em{font-style:italic}
+.cs-dek{font-size:clamp(15px,1.3vw,18px);line-height:1.6;color:var(--fg2);max-width:620px;margin-bottom:44px}
+.cs-meta{display:grid;grid-template-columns:repeat(4,auto);gap:40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 0;max-width:860px}
+.cs-meta-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3);margin-bottom:6px}
+.cs-meta-value{font-size:15px;color:var(--fg)}
+.hero-in{opacity:0;transform:translateY(18px);animation:heroIn .8s ease forwards}
+.hero-in:nth-child(2){animation-delay:.1s}.hero-in:nth-child(3){animation-delay:.2s}.hero-in:nth-child(4){animation-delay:.32s}
+@keyframes heroIn{to{opacity:1;transform:none}}
+.cs-body{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.cs-section{padding:56px 0;border-bottom:1px solid var(--border2)}
+.cs-section:last-of-type{border-bottom:none}
+.cs-section-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3);margin-bottom:18px}
+.cs-h2{font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2.3rem);font-weight:400;font-style:italic;line-height:1.2;letter-spacing:-.02em;margin-bottom:6px}
+.cs-cap{font-size:13.5px;line-height:1.7;color:var(--fg3);max-width:640px}
+.cs-cap b{color:var(--fg2);font-weight:500}
+/* full-bleed figure */
+.figure{margin:28px 0 0;border-radius:14px;overflow:hidden;border:1px solid var(--border2);background:#0f0e11;box-shadow:0 30px 70px rgba(0,0,0,.4)}
+.figure img{width:100%;display:block}
+.cap{font-size:12.5px;color:var(--fg3);margin-top:12px;letter-spacing:.02em;max-width:760px}
+.cap b{color:var(--fg2);font-weight:500}
+/* alternating feature rows */
+.feature{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;margin-top:40px}
+.feature.rev{grid-template-columns:.95fr 1.05fr}
+.feature.rev .feat-media{order:2}.feature.rev .feat-text{order:1}
+.feat-media{display:flex;justify-content:center}
+.feat-media img{width:100%;display:block}
+.device-phone-lg{width:230px;max-width:70%}
+.feat-num{font-family:var(--font-display);font-style:italic;font-size:1.3rem;color:rgba(193,90,56,.5);margin-bottom:8px}
+.feat-text h3{font-size:16.5px;font-weight:600;color:var(--fg);margin-bottom:8px;line-height:1.3}
+.feat-text p{font-size:13.5px;line-height:1.7;color:var(--fg3)}
+/* ── real product screens (pulled from the live heyoia.com source — actual
+   phone-frame.png asset + actual component copy, colours and icons) ── */
+.realphone{position:relative;width:100%;aspect-ratio:503/1024;container-type:inline-size}
+.rp-frame{position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:multiply;pointer-events:none;user-select:none;z-index:2;filter:drop-shadow(0 8px 16px rgba(60,26,18,.10)) drop-shadow(0 26px 54px rgba(153,64,43,.16))}
+.rp-screen{position:absolute;top:2.667%;left:3.667%;right:3.667%;bottom:1.667%;border-radius:13.3%/6.7%;overflow:hidden;background:#fcf9f7;display:flex;flex-direction:column;font-family:'Work Sans',sans-serif}
+.rp-status{display:flex;justify-content:space-between;align-items:center;background:#fcf9f7;flex:0 0 auto;padding:3.33cqw 6.67cqw 1.33cqw}
+.rp-status .rp-time{font-weight:600;color:#1b1c1b;font-size:3.33cqw}
+.rp-status .rp-icons{display:flex;gap:1.33cqw;align-items:center}
+.rp-status svg{fill:#1b1c1b}
+.rp-hd{display:flex;align-items:center;gap:3.33cqw;padding:5.33cqw 5.33cqw 3.33cqw;border-bottom:1px solid rgba(220,192,186,.2);background:#fcf9f7;flex:0 0 auto}
+.rp-av{width:10.67cqw;height:10.67cqw;border-radius:50%;background:#99402b;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.rp-hd-name{font-size:3.67cqw;font-weight:600;color:#1b1c1b}
+.rp-hd-status{display:flex;align-items:center;gap:1.33cqw;margin-top:.7cqw}
+.rp-dot{width:2cqw;height:2cqw;border-radius:50%;background:#22c55e;display:inline-block;flex:0 0 auto}
+.rp-hd-sub{font-size:3cqw;color:#56423e}
+.rp-body{flex:1 1 auto;overflow:hidden;padding:4cqw;display:flex;flex-direction:column;gap:2.67cqw}
+.rp-msg{display:flex;gap:2cqw;align-items:flex-end}
+.rp-msg.end{justify-content:flex-end}
+.rp-av-sm{width:6.67cqw;height:6.67cqw;border-radius:50%;background:#99402b;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.rp-bubble{padding:2.67cqw 4cqw;border-radius:5.33cqw;font-size:3.67cqw;line-height:1.4}
+.rp-bubble.nia{background:#f0edeb;color:#1b1c1b;border-bottom-left-radius:1.33cqw;max-width:84%}
+.rp-bubble.patient{background:#99402b;color:#fff;border-bottom-right-radius:1.33cqw;max-width:84%}
+.rp-refphoto{margin-left:auto;width:30cqw;height:36.67cqw;border-radius:5.33cqw;border-bottom-right-radius:1.33cqw;overflow:hidden;position:relative;border:1px solid rgba(153,64,43,.2)}
+.rp-refphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.rp-refphoto::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.35),transparent 60%)}
+.rp-refphoto span{position:absolute;bottom:1.33cqw;left:1.8cqw;font-size:2.33cqw;color:rgba(255,255,255,.85);z-index:1}
+.rp-panel-hd{display:flex;justify-content:space-between;align-items:flex-start;padding:5.33cqw 5.33cqw 4cqw;border-bottom:1px solid rgba(220,192,186,.2);flex:0 0 auto}
+.rp-title{font-size:4cqw;font-weight:600;color:#1b1c1b}
+.rp-sub{font-size:3cqw;color:#99402b;margin-top:.3cqw}
+.rp-badge{background:rgba(153,64,43,.08);border-radius:2.67cqw;padding:1.33cqw 2.67cqw;text-align:center}
+.rp-badge b{display:block;font-size:3cqw;color:#99402b;font-weight:600}
+.rp-badge span{font-size:2.33cqw;color:#56423e}
+.rp-stats{display:flex;gap:2.67cqw;padding:2.67cqw 4cqw;border-bottom:1px solid rgba(220,192,186,.1);flex:0 0 auto}
+.rp-stat{flex:1;background:#f0edeb;border-radius:4cqw;padding:2cqw;display:flex;flex-direction:column;align-items:center;gap:.67cqw}
+.rp-stat svg{color:#99402b}
+.rp-stat b{font-size:2.67cqw;font-weight:600;color:#1b1c1b}
+.rp-stat span{font-size:2.33cqw;color:#99402b}
+.rp-list{flex:1;overflow:hidden;padding:2.67cqw 4cqw}
+.rp-row{display:flex;align-items:center;gap:3.33cqw;padding:2.67cqw;border-radius:5.33cqw;background:#fcf9f7;border:1px solid rgba(220,192,186,.2);margin-bottom:2cqw}
+.rp-row-icon{width:10.67cqw;height:10.67cqw;border-radius:5.33cqw;background:rgba(153,64,43,.08);display:flex;align-items:center;justify-content:center;color:#99402b;flex:0 0 auto}
+.rp-row-body{flex:1;min-width:0}
+.rp-row-title{font-size:3.33cqw;font-weight:600;color:#1b1c1b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-row-sub{font-size:2.67cqw;color:#56423e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-row-right{flex:0 0 auto;text-align:right}
+.rp-pill{font-size:2.33cqw;font-weight:600;border-radius:1.33cqw;padding:.67cqw 2cqw;display:inline-block}
+.rp-pill.ok{color:#15803d;background:#f0fdf4}
+.rp-pill.warn{color:#b45309;background:#fffbeb}
+.rp-pill.pending{color:#56423e;background:#f0edeb}
+.rp-row-day{font-size:2.33cqw;color:#56423e;margin-top:.67cqw}
+.rp-banner{margin:2.67cqw 4cqw 0;background:rgba(153,64,43,.06);border-radius:4cqw;padding:2.67cqw 4cqw;display:flex;align-items:center;gap:2.67cqw;flex:0 0 auto}
+.rp-banner p{font-size:3cqw;color:#99402b;line-height:1.4}
+.rp-prod-icon{width:12cqw;height:12cqw;border-radius:5.33cqw;background:#f0edeb;display:flex;align-items:center;justify-content:center;color:#99402b;flex:0 0 auto}
+.rp-prod-price{font-size:3.67cqw;font-weight:600;color:#1b1c1b}
+.rp-prod-plus{width:8cqw;height:8cqw;border-radius:50%;background:rgba(153,64,43,.1);display:flex;align-items:center;justify-content:center;color:#99402b;font-weight:700;font-size:3.67cqw;margin-top:1.33cqw;margin-left:auto}
+.rp-cta-wrap{padding:1.33cqw 4cqw 4cqw;flex:0 0 auto}
+.rp-cta-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.67cqw;padding:0 1.33cqw}
+.rp-cta-row span{font-size:3.33cqw;color:#56423e}
+.rp-cta-row b{font-size:3.67cqw;font-weight:600;color:#1b1c1b}
+.rp-cta-row s{color:#56423e;font-size:3cqw;margin-left:1cqw}
+.rp-cta-btn{width:100%;background:#99402b;border-radius:5.33cqw;padding:3.33cqw;text-align:center;color:#fff;font-size:3.67cqw;font-weight:600}
+.rp-skip{text-align:center;font-size:2.67cqw;color:#56423e;margin-top:2.67cqw}
+.rp-abtn{font-size:2.67cqw;font-weight:600;border-radius:3.33cqw;padding:1.33cqw 3.33cqw;display:inline-block;white-space:nowrap}
+.rp-abtn.done{color:#15803d;background:rgba(21,128,61,.1);border:1px solid rgba(21,128,61,.2)}
+.rp-abtn.todo{color:#56423e;background:#fcf9f7;border:1px solid rgba(220,192,186,.4)}
+.rp-row-icon.shot{background:none;padding:0;overflow:hidden}
+.rp-row-icon.shot img{width:100%;height:100%;object-fit:cover;border-radius:5.33cqw}
+.rp-row-icon.ok{background:rgba(21,128,61,.1);color:#15803d}
+.rp-vidmsg{width:56%;margin-left:auto;border-radius:5.33cqw;border-bottom-right-radius:1.33cqw;overflow:hidden;border:1px solid rgba(153,64,43,.3);background:#fff}
+.rp-vidmsg-thumb{position:relative;aspect-ratio:4/5;background:linear-gradient(160deg,#e9cdbd,#cd9576 55%,#a9603f)}
+.rp-vidmsg-tag{position:absolute;top:2cqw;left:2cqw;background:rgba(27,28,27,.55);color:#fff;font-size:2cqw;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.8cqw 1.8cqw;border-radius:2.67cqw}
+.rp-vidmsg-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:9cqw;height:9cqw;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.rp-vidmsg-dur{position:absolute;bottom:2cqw;left:2cqw;background:rgba(27,28,27,.55);color:#fff;font-size:2.33cqw;font-weight:600;padding:.67cqw 1.8cqw;border-radius:2.67cqw;display:flex;align-items:center;gap:.8cqw}
+.rp-vidmsg-cap{font-size:2.33cqw;color:#56423e;text-align:right;padding:1.33cqw 2.67cqw}
+.rp-lockcard{margin:2.67cqw 4cqw 4cqw;background:#fcf9f7;border:1px solid rgba(220,192,186,.5);border-radius:5.33cqw;padding:4cqw}
+.rp-lockcard-icon{width:9.33cqw;height:9.33cqw;border-radius:50%;background:rgba(153,64,43,.1);color:#99402b;display:flex;align-items:center;justify-content:center;margin-bottom:2.67cqw}
+.rp-lockcard-title{font-size:3.67cqw;font-weight:600;color:#1b1c1b;margin-bottom:1.33cqw;line-height:1.3}
+.rp-lockcard-sub{font-size:2.67cqw;color:#56423e;line-height:1.5;margin-bottom:3.33cqw}
+.rp-snapshot-hd{display:flex;justify-content:space-between;align-items:center;padding:5.33cqw 5.33cqw 4cqw;border-bottom:1px solid rgba(220,192,186,.2);flex:0 0 auto}
+.rp-daybadge{display:flex;align-items:center;gap:1.33cqw;background:#f0fdf4;border-radius:6.67cqw;padding:.9cqw 2.67cqw}
+.rp-daybadge span{font-size:3cqw;color:#15803d;font-weight:600}
+.rp-weeknav{display:flex;align-items:center;justify-content:space-between;padding:4cqw 5.33cqw 1.33cqw;color:#56423e;flex:0 0 auto}
+.rp-weeknav b{font-size:3.33cqw;font-weight:600;color:#1b1c1b}
+.rp-grid{padding:0 4cqw;flex:0 0 auto}
+.rp-grid-head{display:grid;grid-template-columns:17.33cqw repeat(7,1fr);gap:1cqw;margin-bottom:1.33cqw}
+.rp-grid-head span{font-size:2.67cqw;text-align:center;color:#56423e;padding-bottom:.67cqw}
+.rp-grid-head span.today{color:#99402b;font-weight:700}
+.rp-grid-row{display:grid;grid-template-columns:17.33cqw repeat(7,1fr);gap:1cqw;align-items:center;margin-bottom:2cqw}
+.rp-grid-row span{font-size:3cqw;color:#56423e}
+.rp-cell{border-radius:1.33cqw;aspect-ratio:1;min-height:4.67cqw}
+.rp-legend{display:flex;justify-content:space-between;margin:2cqw .2cqw 2.67cqw}
+.rp-legend-item{display:flex;align-items:center;gap:2cqw}
+.rp-legend-item span{font-size:2.33cqw;color:#56423e}
+.rp-legend-sw{display:flex;gap:.67cqw}
+.rp-legend-sw div{width:2.67cqw;height:2.67cqw;border-radius:.67cqw}
+.rp-insight{margin:0 4cqw;background:#f0fdf4;border-radius:5.33cqw;padding:3.33cqw;flex:0 0 auto}
+.rp-insight-hd{display:flex;align-items:center;gap:1.33cqw;margin-bottom:1.33cqw}
+.rp-insight-hd b.g{font-size:3.33cqw;font-weight:600;color:#15803d}
+.rp-insight-hd b.k{font-size:3.33cqw;font-weight:600;color:#1b1c1b}
+.rp-insight p{font-size:3cqw;color:#56423e;margin-bottom:2.67cqw;line-height:1.5}
+.rp-insight-stats{display:flex;gap:2cqw}
+.rp-insight-stat{flex:1;background:#fff;border-radius:2.67cqw;padding:1.33cqw 2.67cqw}
+.rp-insight-stat span{font-size:2.67cqw;color:#56423e;display:block}
+.rp-insight-stat b{font-size:4cqw;font-weight:600;color:#15803d;display:block}
+.rp-insight-stat em{font-style:normal;font-size:2.33cqw;color:#56423e}
+.rp-drnote{margin:2.67cqw 4cqw 4cqw;display:flex;align-items:flex-start;gap:2.67cqw;flex:0 0 auto}
+.rp-drnote-bubble{background:#f0edeb;border-radius:5.33cqw;border-top-left-radius:1.33cqw;padding:2.67cqw 3.33cqw;font-size:3cqw;color:#1b1c1b;line-height:1.5;display:flex;gap:1.33cqw}
+.rp-drnote-bubble svg{flex:0 0 auto;margin-top:.2cqw}
+.rp-clinic{margin-left:9.33cqw}
+.rp-clinic-card{background:#fcf9f7;border-radius:4cqw;border:1px solid rgba(220,192,186,.4);overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.rp-clinic-img{height:18.67cqw;position:relative;overflow:hidden}
+.rp-clinic-img img{width:100%;height:100%;object-fit:cover;display:block}
+.rp-clinic-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5),transparent 60%)}
+.rp-clinic-info{position:absolute;bottom:2cqw;left:3.33cqw;z-index:1}
+.rp-clinic-info p:first-child{font-size:3.33cqw;color:#fff;font-weight:600}
+.rp-clinic-info p:last-child{font-size:2.67cqw;color:rgba(255,255,255,.8)}
+.rp-clinic-rating{position:absolute;top:2cqw;right:2.67cqw;background:rgba(255,255,255,.2);backdrop-filter:blur(4px);border-radius:6.67cqw;padding:.67cqw 2.67cqw;z-index:1}
+.rp-clinic-rating p{font-size:3cqw;color:#fff;font-weight:600}
+.rp-clinic-foot{padding:3.33cqw;display:flex;justify-content:space-between;align-items:center}
+.rp-clinic-foot span{font-size:3cqw;color:#56423e}
+.rp-clinic-foot b{font-size:3.67cqw;font-weight:600;color:#99402b}
+.rp-matchlist{margin-left:9.33cqw;display:flex;flex-direction:column;gap:2cqw}
+.rp-matchcard{background:#fcf9f7;border-radius:4cqw;border:1px solid rgba(220,192,186,.4);padding:2.67cqw 3.33cqw;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.rp-matchcard .top{display:flex;justify-content:space-between;align-items:center}
+.rp-matchcard .top p:first-child{font-size:3.33cqw;font-weight:600;color:#1b1c1b}
+.rp-matchcard .top p:last-child{font-size:2.67cqw;color:#99402b;font-weight:600}
+.rp-matchcard .bot{display:flex;justify-content:space-between;align-items:center;margin-top:.67cqw}
+.rp-matchcard .bot p:first-child{font-size:2.67cqw;color:#56423e}
+.rp-matchcard .bot p:last-child{font-size:3cqw;font-weight:600;color:#99402b}
+/* brand */
+.brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;margin-top:28px}
+.brand-logo{border-radius:14px;overflow:hidden;border:1px solid var(--border2);background:#fff}
+.brand-logo img{width:100%;display:block}
+.swatches{display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--border2);height:70px;margin-top:16px}
+.swatches span{flex:1}
+.voice{border:1px solid var(--border2);border-radius:12px;padding:22px;background:#F7F5F1;margin-top:16px}
+.voice .tt{font-family:var(--font-display);font-size:20px;color:var(--fg)}
+.voice p{font-size:12.5px;color:var(--fg3);margin-top:8px}
+.bpalette{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
+.bp-sw{position:relative;height:120px;border-radius:12px;border:1px solid var(--border2);display:flex;flex-direction:column;justify-content:flex-end;padding:12px;overflow:hidden}
+.bp-sw .bp-name{font-size:12px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.25)}
+.bp-sw .bp-hex{display:block;font-size:10.5px;color:rgba(255,255,255,.85);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-top:2px}
+.bp-sw .bp-role{position:absolute;top:12px;left:12px;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.bp-sw.light .bp-name,.bp-sw.light .bp-hex,.bp-sw.light .bp-role{color:var(--fg3);text-shadow:none}
+.bp-sw.light .bp-name{color:var(--fg)}
+@media(max-width:640px){.bpalette{grid-template-columns:repeat(2,1fr)}}
+.btype{border:1px solid var(--border2);border-radius:12px;padding:22px;background:#F7F5F1}
+.bt-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.bt-display{font-family:'EB Garamond',serif;font-style:italic;font-size:26px;color:var(--fg);margin-top:8px;line-height:1.3}
+.bt-body{font-family:'Work Sans',sans-serif;font-size:14px;color:var(--fg2);margin-top:8px;line-height:1.6}
+/* technical luxury — glass over living gradient */
+.tlux{position:relative;border-radius:20px;overflow:hidden;padding:48px;margin-top:8px;min-height:300px;display:flex;align-items:center;justify-content:center;isolation:isolate;border:1px solid var(--border2)}
+.tlux-bg{position:absolute;inset:-25%;z-index:-1;background:radial-gradient(38% 48% at 30% 34%,rgba(193,90,56,.95),transparent 60%),radial-gradient(44% 54% at 74% 28%,rgba(224,145,111,.8),transparent 60%),radial-gradient(52% 60% at 62% 80%,rgba(112,96,110,.6),transparent 62%),radial-gradient(46% 56% at 20% 76%,rgba(232,223,211,.85),transparent 60%);background-color:#b0472b;animation:tluxDrift 20s ease-in-out infinite}
+@keyframes tluxDrift{0%,100%{transform:scale(1) translate(0,0)}33%{transform:scale(1.09) translate(2%,-2%)}66%{transform:scale(1.06) translate(-2%,1.5%)}}
+.glass-card{width:100%;max-width:380px;background:rgba(255,255,255,.16);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:26px;box-shadow:0 12px 32px rgba(70,26,12,.2),inset 0 1px 0 rgba(255,255,255,.5)}
+.gc-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.gc-av{width:26px;height:26px;flex:none}
+.gc-name{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#fff}
+.gc-greet{font-family:var(--font-display);font-size:18px;line-height:1.45;color:#fff;margin-bottom:20px;text-shadow:0 1px 12px rgba(60,20,10,.25)}
+.gc-btns{display:flex;gap:10px;flex-wrap:wrap}
+.gc-btns span{font-size:13px;font-weight:500;border-radius:10px;padding:10px 16px;cursor:default}
+.gc-primary{background:#fff;color:#8a3a28}
+.gc-ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.45)}
+@media(prefers-reduced-motion:reduce){.tlux-bg{animation:none}}
+/* outcome band */
+.cs-metrics{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border2);border-radius:12px;overflow:hidden;margin-top:28px}
+.cs-metric{padding:26px 24px;border-right:1px solid var(--border2)}
+.cs-metric:nth-child(3n){border-right:none}.cs-metric:nth-child(n+4){border-top:1px solid var(--border2)}
+.cs-metric-num{font-family:var(--font-display);font-size:clamp(1.6rem,3.6vw,2.4rem);color:var(--accent);line-height:1;margin-bottom:8px}
+.cs-metric-label{font-size:12.5px;color:var(--fg2);line-height:1.5}
+.cs-metric-note{font-size:11px;color:var(--fg3);line-height:1.5;margin-top:6px}
+.cs-callout{border-left:2px solid var(--accent);padding:18px 26px;background:rgba(193,90,56,.05);border-radius:0 10px 10px 0;margin-top:32px}
+.cs-callout p{font-family:var(--font-display);font-style:italic;font-size:1.05rem;line-height:1.55;color:var(--fg)}
+/* ── OIA BEHAVIOUR ── */
+.obeh-grid{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:40px;align-items:start;margin-top:32px}
+@media(max-width:860px){.obeh-grid{grid-template-columns:1fr}}
+.oiachat{border-radius:18px;overflow:hidden;border:1px solid var(--border);background:#F7F1E9;box-shadow:0 8px 24px rgba(20,19,20,.08)}
+.oc-hd{background:#FBF7F1;padding:13px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #EADFD2}
+.oc-av{width:30px;height:30px;border-radius:50%;background:#C15A38;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-style:italic;font-size:15px}
+.oc-nm{font-size:13px;font-weight:600;color:#4a3a30}
+.oc-st{font-size:10.5px;color:#a08b7a}
+.oc-body{padding:18px 14px 22px;display:flex;flex-direction:column;gap:9px}
+.oc-msg{position:relative;max-width:88%;padding:9px 13px;border-radius:12px;font-size:12.8px;line-height:1.55;color:#3a3028}
+.oc-in{background:#fff;align-self:flex-start;border-top-left-radius:4px;box-shadow:0 1px 2px rgba(80,50,30,.1)}
+.oc-out{background:#EFD9CD;align-self:flex-end;border-top-right-radius:4px;box-shadow:0 1px 2px rgba(80,50,30,.1)}
+.mk{position:absolute;top:-8px;right:-9px;width:19px;height:19px;border-radius:50%;background:var(--accent2);color:#18171A;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);box-shadow:0 0 0 3px #F7F1E9}
+.oc-out .mk{left:-9px;right:auto}
+.obeh-notes{display:flex;flex-direction:column;border-left:1px solid var(--border);padding-left:0}
+.on{display:flex;gap:14px;padding:14px 0 14px 20px;border-bottom:1px solid var(--border2)}
+.on:last-child{border-bottom:none}
+.on .n{flex:0 0 auto;width:20px;height:20px;border-radius:50%;border:1px solid var(--accent2);color:var(--accent2);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.on p{font-size:12.5px;line-height:1.6;color:var(--fg3)}
+.soulrow{display:grid;grid-template-columns:1fr minmax(0,460px);gap:40px;align-items:center;margin-top:48px}
+@media(max-width:860px){.soulrow{grid-template-columns:1fr}}
+.soulfile{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#141317;box-shadow:0 8px 24px rgba(20,19,20,.1)}
+.sf-hd{display:flex;align-items:center;gap:8px;padding:11px 15px;background:#1D1C20;border-bottom:1px solid var(--border2)}
+.sf-hd i{width:10px;height:10px;border-radius:50%;background:#2e2c31}
+.sf-hd span{margin-left:8px;font-size:11px;color:var(--fg3);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.sf-body{padding:18px 20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.9;color:var(--fg2)}
+.sf-body .h{color:var(--accent2)}
+.sf-body .c{color:var(--fg3)}
+/* voice / speech motion identity */
+.voice-wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;margin-top:16px}
+.orb-card{position:relative;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#fcf9f8;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);box-shadow:0 6px 18px rgba(20,19,20,.06)}
+.orb-glow{position:absolute;width:80%;height:80%;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(196,90,56,.6),rgba(153,64,43,.28) 42%,rgba(153,64,43,0) 70%);filter:blur(24px);animation:orbGlow 6.5s ease-in-out infinite;pointer-events:none}
+.orb-card svg.orb{position:absolute;top:50%;left:50%;width:76%;height:76%;overflow:visible;transform:translate(-50%,-50%)}
+.orb-grain{position:absolute;inset:0;width:100%;height:100%;opacity:.38;mix-blend-mode:multiply;pointer-events:none}
+.cA{transform-box:fill-box;transform-origin:center;animation:orbDriftA 9s ease-in-out infinite}
+.cB{transform-box:fill-box;transform-origin:center;animation:orbDriftB 9s ease-in-out infinite}
+@keyframes orbDriftA{0%,100%{transform:translateX(0)}50%{transform:translateX(28px)}}
+@keyframes orbDriftB{0%,100%{transform:translateX(0)}50%{transform:translateX(-28px)}}
+@keyframes orbGlow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.92;transform:scale(1.08)}}
+/* frosted-glass "top" circle (the front circle in the eclipse pairing) */
+.orb-glass{position:absolute;left:44.93%;top:35.31%;width:29.39%;height:29.39%;border-radius:50%;background:linear-gradient(135deg,rgba(255,220,190,.6),rgba(237,166,128,.4) 55%,rgba(198,112,80,.32));backdrop-filter:blur(9px) saturate(1.2);-webkit-backdrop-filter:blur(9px) saturate(1.2);box-shadow:inset 0 1px 1px rgba(255,255,255,.6),inset 0 -6px 14px rgba(154,66,43,.24),0 4px 10px rgba(154,66,43,.16);border:1px solid rgba(255,255,255,.4);animation:orbDriftGlass 9s ease-in-out infinite;pointer-events:none}
+.orb-glass::after{content:'';position:absolute;top:14%;left:18%;width:34%;height:22%;background:rgba(255,255,255,.55);border-radius:50%;filter:blur(4px);transform:rotate(-18deg)}
+@keyframes orbDriftGlass{0%,100%{transform:translateX(0)}50%{transform:translateX(-24.13%)}}
+.voice-states{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.vstate{border:1px solid var(--border2);border-radius:12px;padding:16px;background:#F7F5F1;text-align:center}
+.vstate .mini{width:44px;height:44px;background:#fcf9f8;border-radius:50%;display:block;margin:0 auto 10px;overflow:hidden}
+.vstate h4{font-size:11.5px;color:var(--fg);font-weight:600;margin-bottom:2px}
+.vstate p{font-size:10.5px;color:var(--fg3);line-height:1.4}
+@media(max-width:860px){.voice-wrap{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.cA,.cB,.orb-glow,.orb-glass{animation:none}.cA{transform:translateX(20px)}.cB{transform:translateX(-20px)}.orb-glass{transform:translateX(-20px)}}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+@media(max-width:860px){
+.brand-grid,.feature,.feature.rev{grid-template-columns:1fr}
+.feature.rev .feat-media{order:0}.feature.rev .feat-text{order:0}
+.cs-metrics{grid-template-columns:1fr}
+.cs-meta{grid-template-columns:1fr 1fr;gap:24px}}
+/* ── hero mobile journey row ── */
+.mobpanel{background:#FBF7F4;border-radius:26px;padding:46px 30px 36px;border:1px solid var(--border);box-shadow:0 10px 28px rgba(20,19,20,.08)}
+.mobrow{display:flex;gap:14px;align-items:flex-end;justify-content:center}
+.mobcell{flex:1;min-width:0;max-width:212px}
+.mobcell img{width:100%;display:block}
+.mobcell.up{transform:translateY(-16px)}
+.moblab{margin-top:10px;font-size:11px;line-height:1.5;color:#8d7c6e;letter-spacing:.02em;text-align:center}
+.moblab b{display:block;color:#4a3a30;font-weight:600;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.moblab b i{font-style:normal;color:#C15A38;margin-right:5px}
+@media(max-width:860px){
+  .mobpanel{padding:26px 16px 22px;border-radius:18px}
+  .mobrow{overflow-x:auto;justify-content:flex-start;padding-bottom:10px;scroll-snap-type:x mandatory}
+  .mobcell{flex:0 0 190px;max-width:190px;scroll-snap-align:center}
+  .mobcell.up{transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="back-nav">
+<a href="https://idadilfer-tinker.github.io/portfolio/" class="back-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+Back to portfolio</a>
+<span class="back-nav-title">OIA AI-led Surgery Concierge · Case Study</span>
+<div class="back-nav-right"><a href="https://heyoia.com" target="_blank" rel="noopener" class="visit-link">Visit heyoia.com
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a></div>
+</nav>
+
+<div class="audio-bar" id="audioBar">
+  <div class="audio-bar-inner">
+    <span class="audio-label">Audio description</span>
+    <div class="audio-controls">
+      <button class="audio-btn" id="playBtn" type="button" aria-label="Play">
+        <svg id="playIcon" width="11" height="12" viewBox="0 0 11 12"><path d="M1 1L10 6L1 11V1Z" fill="#141314"/></svg>
+      </button>
+      <button class="audio-btn" id="stopBtn" type="button" aria-label="Stop">
+        <svg width="10" height="10" viewBox="0 0 10 10"><rect width="10" height="10" fill="#141314"/></svg>
+      </button>
+    </div>
+    <div class="audio-progress" id="progressTrack">
+      <div class="audio-progress-fill" id="progressFill"></div>
+    </div>
+    <span class="audio-time" id="timeLabel">0:00 / 0:00</span>
+    <button class="read-toggle" id="readToggle" type="button">≡ Read as text</button>
+  </div>
+  <audio id="narrationAudio" preload="metadata" src="oia-audio.mp3"></audio>
+</div>
+
+<div class="audio-summary" id="audioSummary">
+  <div class="audio-summary-inner">
+    <div class="audio-summary-label">Transcript</div>
+    <p class="audio-summary-hint">The full narrative, in the same three parts as the audio: the challenge, my approach and what I built.</p>
+    <div class="transcript">
+      <details class="transcript-item">
+        <summary><span><span class="t-hint">The challenge</span><br><span class="t-sub">Why a conversation, not a directory</span></span><span class="t-mark">+</span></summary>
+        <div class="transcript-body">Choosing cosmetic surgery is one of the most personal, high-stakes decisions someone can make. The existing path is a maze of directories, unverifiable before-and-afters and opaque pricing, and it only adds to the fear. I interviewed 30+ patients and surgeons to map where trust breaks down. One finding became the product's spine: people don't want more options, they want to trust one.</div>
+      </details>
+      <details class="transcript-item">
+        <summary><span><span class="t-hint">My approach</span><br><span class="t-sub">The conversation is the product</span></span><span class="t-mark">+</span></summary>
+        <div class="transcript-body">Oia replaces the marketplace with a concierge: an agent that searches, vets, compares and negotiates on the patient's behalf, so the person stays in a calm, one-to-one conversation. When the interface is a conversation, the copy is the design, not a layer added after the screens, so I scripted the dialogue first and built the UI to serve it. Oia's identity, voice, hard lines and worked examples live in a SOUL.md file I write and version like any other design artefact, so non-engineers can retrain her by editing text, not code. Her hard lines are as deliberate as anything on screen: she never gives medical advice, never promises an outcome, never fabricates a case, and never pushes a hesitant patient. I owned brand end to end too: name, wordmark, palette and voice. In a category that shouts, Oia had to feel like a quiet, expert friend, so I built Technical Luxury: a restrained interface of frosted glass over slow-moving gradients, calm enough for a decision this personal.</div>
+      </details>
+      <details class="transcript-item">
+        <summary><span><span class="t-hint">What I built</span><br><span class="t-sub">Live at heyoia.com</span></span><span class="t-mark">+</span></summary>
+        <div class="transcript-body">SmartMatch shortlists surgeons by verified outcomes rather than who paid for placement, compared side by side in a mobile-first layout for late-night, one-handed use. Once a patient decides, Oia plans the whole trip: flights, hotel, surgery day, a recovery kit delivered ahead of arrival, and daily post-op check-ins, all inside the same conversation with the patient and the clinic's own coordinators, handed off to WhatsApp whenever that's easier for the patient. A Price Match layer negotiates the package across two or three clinics in parallel before it's ever shown to the patient. Onboarding is three plain-language questions, never a form, ending on the payoff of meeting Oia and seeing matches immediately. Oia is live at heyoia.com, shipped 0→1 and grounded in 30+ interviews and 3,500+ real cases reviewed with surgeons.</div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<header class="cs-hero">
+<h1 class="cs-title hero-in">OIA AI-led Surgery Concierge</h1>
+<p class="cs-dek hero-in">Joined as founding designer on a three-person team. I turned patient and surgeon interviews into product decisions, replacing a fear-driven, opaque category with one conversation people could trust.</p>
+<div class="cs-meta hero-in">
+<div><p class="cs-meta-label">Role</p><p class="cs-meta-value">Founding Designer · Product, Brand &amp; Research</p></div>
+<div><p class="cs-meta-label">Year</p><p class="cs-meta-value">2025</p></div>
+<div><p class="cs-meta-label">Type</p><p class="cs-meta-value">AI concierge · 0→1</p></div>
+<div><p class="cs-meta-label">Status</p><p class="cs-meta-value">Live · heyoia.com</p></div>
+</div>
+</header>
+
+<div class="cs-hero" style="padding-top:0">
+<div class="mobpanel">
+<div class="mobrow">
+  <div class="mobcell">
+<div class="realphone"><div class="rp-screen">
+<div class="rp-status"><span class="rp-time">9:41</span><div class="rp-icons"><svg style="width:4cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg style="width:4.67cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="rp-hd"><div class="rp-av"><svg style="width:4.33cqw;height:4.33cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div><p class="rp-hd-name">Oia</p><div class="rp-hd-status"><span class="rp-dot"></span><p class="rp-hd-sub">Online now</p></div></div></div>
+<div class="rp-body">
+<div class="rp-msg end"><div class="rp-bubble patient">Hey Oia, tell me about best surgeons for rhinoplasty. I&rsquo;ve never liked my profile, I want this bump gone.</div></div>
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">Thank you for trusting me with that. The best rhinoplasty keeps your face completely yours &mdash; just quieter about the one thing you notice. What would feeling at ease in photos look like?</div></div>
+<div class="rp-msg end"><div class="rp-refphoto"><img decoding="async" src="reference-profile.webp" alt="Reference photo"><span>Reference photo</span></div></div>
+<div class="rp-msg end"><div class="rp-bubble patient">Something like this. Natural &mdash; I don&rsquo;t want to look &ldquo;done&rdquo;.</div></div>
+</div>
+</div><img class="rp-frame" src="phone-frame.png" alt=""></div>
+<p class="moblab"><b><i>01</i>Meet Oia</b>Tell her what you want, no forms.</p></div>
+
+  <div class="mobcell up">
+<div class="realphone"><div class="rp-screen">
+<div class="rp-status"><span class="rp-time">9:41</span><div class="rp-icons"><svg style="width:4cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg style="width:4.67cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="rp-hd"><div class="rp-av"><svg style="width:4.33cqw;height:4.33cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div><p class="rp-hd-name">Oia</p><div class="rp-hd-status"><span class="rp-dot"></span><p class="rp-hd-sub">Online now</p></div></div></div>
+<div class="rp-body">
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">I&rsquo;ve matched you across Istanbul, Athens and Madrid &mdash; all within your budget. From June 22nd?</div></div>
+<div class="rp-msg end"><div class="rp-bubble patient">Yes! June 22nd is perfect. 🙌</div></div>
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">Your top match &mdash; JCI accredited, 1,200+ body contouring cases:</div></div>
+<div class="rp-clinic"><div class="rp-clinic-card"><div class="rp-clinic-img"><img decoding="async" src="clinic.webp" alt="Estetik International, Istanbul"><div class="rp-clinic-rating"><p>&#9733; 4.9</p></div><div class="rp-clinic-info"><p>Estetik International</p><p>Istanbul &middot; JCI Accredited</p></div></div><div class="rp-clinic-foot"><span>Body contouring package from</span><b>&pound;6,800</b></div></div></div>
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">Also matched for you:</div></div>
+<div class="rp-matchlist">
+<div class="rp-matchcard"><div class="top"><p>Kalos Aesthetics</p><p>&#9733; 4.8</p></div><div class="bot"><p>Athens &middot; EU Accredited</p><p>from &pound;7,200</p></div></div>
+<div class="rp-matchcard"><div class="top"><p>Cl&iacute;nica Aurora</p><p>&#9733; 4.8</p></div><div class="bot"><p>Madrid &middot; EU Accredited</p><p>from &pound;7,900</p></div></div>
+</div>
+</div>
+</div><img class="rp-frame" src="phone-frame.png" alt=""></div>
+<p class="moblab"><b><i>02</i>Your matches</b>Verified, compared, negotiated.</p></div>
+
+  <div class="mobcell">
+<div class="realphone"><div class="rp-screen">
+<div class="rp-status"><span class="rp-time">9:41</span><div class="rp-icons"><svg style="width:4cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg style="width:4.67cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="rp-panel-hd"><div><p class="rp-title">Madrid Journey</p><p class="rp-sub">Jun 22 &ndash; Jul 2 &middot; 10 nights</p></div><div class="rp-badge"><b>6 steps</b><span>3 confirmed</span></div></div>
+<div class="rp-stats">
+<div class="rp-stat"><svg style="width:5cqw;height:5cqw;color:#99402b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3.4 10.4l6.7 2.5 2.5 6.7L21 3Zm0 0-8.4 9.9"/></svg><b>Flights</b><span>Confirmed</span></div>
+<div class="rp-stat"><svg style="width:5cqw;height:5cqw;color:#99402b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6.2A1.8 1.8 0 0 1 4.8 10h14.4A1.8 1.8 0 0 1 21 11.8V18"/><path d="M3 15h18M3 18v2M21 18v2"/><path d="M6.8 10V8.6A1.6 1.6 0 0 1 8.4 7h3.2A1.6 1.6 0 0 1 13.2 8.6V10"/></svg><b>Hotel</b><span>Booked</span></div>
+<div class="rp-stat"><svg style="width:5cqw;height:5cqw;color:#99402b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3.8l2.4-5 3.6 10 2.4-5H21"/></svg><b>Surgery</b><span>Jun 24</span></div>
+</div>
+<div class="rp-list">
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3.4 10.4l6.7 2.5 2.5 6.7L21 3Zm0 0-8.4 9.9"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Fly to Madrid</p><p class="rp-row-sub">LHR 07:45 &rarr; MAD 11:20 &middot; transfer included</p></div><div class="rp-row-right"><p class="rp-pill ok">Confirmed</p><p class="rp-row-day">Jun 22</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6.2A1.8 1.8 0 0 1 4.8 10h14.4A1.8 1.8 0 0 1 21 11.8V18"/><path d="M3 15h18M3 18v2M21 18v2"/><path d="M6.8 10V8.6A1.6 1.6 0 0 1 8.4 7h3.2A1.6 1.6 0 0 1 13.2 8.6V10"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Villa Magna &middot; Suite 412</p><p class="rp-row-sub">Check-in 3pm &middot; nurse on call overnight</p></div><div class="rp-row-right"><p class="rp-pill brand">Booked</p><p class="rp-row-day">Jun 22</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V7l7-4 7 4v14"/><path d="M3 21h18"/><path d="M12 8.4v4.2M9.9 10.5h4.2"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Pre-op &middot; Dr. Navarro</p><p class="rp-row-sub">Cl&iacute;nica Aurora &middot; 9:00am</p></div><div class="rp-row-right"><p class="rp-pill ok">Confirmed</p><p class="rp-row-day">Jun 23</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3.8l2.4-5 3.6 10 2.4-5H21"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Surgery day</p><p class="rp-row-sub">Tummy tuck + breast lift &middot; 4 hrs</p></div><div class="rp-row-right"><p class="rp-pill warn">Scheduled</p><p class="rp-row-day">Jun 24</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5v-8.7"/><path d="M12 11.8C12 8.4 9.6 6 6.2 6c0 3.4 2.4 5.8 5.8 5.8Z"/><path d="M12 10.8c0-3 2.2-5.4 5.4-5.4C17.4 8.4 15 10.8 12 10.8Z"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Recovery &amp; daily check-ins</p><p class="rp-row-sub">Private nursing &middot; Oia monitoring</p></div><div class="rp-row-right"><p class="rp-pill pending">Planned</p><p class="rp-row-day">Jun 25&ndash;29</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-9.6L12 5l8 6.4V21"/><path d="M9.5 21v-5.8h5V21"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Fly home</p><p class="rp-row-sub">MAD &rarr; LHR &middot; medical clearance issued</p></div><div class="rp-row-right"><p class="rp-pill pending">Planned</p><p class="rp-row-day">Jul 2</p></div></div>
+</div>
+</div><img class="rp-frame" src="phone-frame.png" alt=""></div>
+<p class="moblab"><b><i>03</i>Your trip</b>Planned end to end for you.</p></div>
+
+  <div class="mobcell up">
+<div class="realphone"><div class="rp-screen">
+<div class="rp-status"><span class="rp-time">9:41</span><div class="rp-icons"><svg style="width:4cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg style="width:4.67cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="rp-panel-hd"><div><p class="rp-title">Recovery Kit</p><p class="rp-sub">Curated by Dr. Navarro &middot; 5 items</p></div><div class="rp-badge"><b>&pound;171</b><span>bundle</span></div></div>
+<div class="rp-banner"><svg style="width:3cqw;height:3cqw;flex:0 0 auto" viewBox="0 0 100 100" fill="#7d2c19"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg><p>Order by Jun 20 &mdash; delivered to your hotel before arrival</p></div>
+<div class="rp-list">
+<div class="rp-row"><div class="rp-prod-icon"><svg style="width:6cqw;height:6cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 3 5 6.6l.9 2.3 2-1V21h8.2V7.9l2 1 .9-2.3L15.4 3"/><path d="M8.6 3a3.6 3 0 0 0 6.8 0"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Medical compression vest</p><p class="rp-row-sub">Marena Recovery &middot; Post-surgery grade</p><span class="rp-pill brand" style="margin-top:.67cqw">Essential</span></div><div class="rp-row-right"><p class="rp-prod-price">&pound;49</p><div class="rp-prod-plus">+</div></div></div>
+<div class="rp-row"><div class="rp-prod-icon"><svg style="width:6cqw;height:6cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l.6 8.2-1 9.8h-3.2L12 12.5l-.4 8.5H8.4l-1-9.8z"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Compression leggings</p><p class="rp-row-sub">Solidea Medical &middot; 18&ndash;21 mmHg</p><span class="rp-pill brand" style="margin-top:.67cqw">Post-op</span></div><div class="rp-row-right"><p class="rp-prod-price">&pound;34</p><div class="rp-prod-plus">+</div></div></div>
+<div class="rp-row"><div class="rp-prod-icon"><svg style="width:6cqw;height:6cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="8.6" width="16.8" height="6.8" rx="3.4"/><path d="M12 8.8v6.4"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Arnica supplements</p><p class="rp-row-sub">60 capsules &middot; bruising &amp; swelling</p></div><div class="rp-row-right"><p class="rp-prod-price">&pound;16</p><div class="rp-prod-plus">+</div></div></div>
+<div class="rp-row"><div class="rp-prod-icon"><svg style="width:6cqw;height:6cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 3h4.8M10.6 3v3.2M13.4 3v3.2"/><path d="M8.6 9.2A2 2 0 0 1 10.6 7.2h2.8a2 2 0 0 1 2 2V19a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2z"/><path d="M8.6 12.6h6.8"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Scar treatment serum</p><p class="rp-row-sub">Mederma Advanced &middot; 2-month supply</p><span class="rp-pill ok" style="margin-top:.67cqw">Recommended</span></div><div class="rp-row-right"><p class="rp-prod-price">&pound;28</p><div class="rp-prod-plus">+</div></div></div>
+<div class="rp-row"><div class="rp-prod-icon"><svg style="width:6cqw;height:6cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="6.5" width="15" height="11" rx="3.6"/><path d="M7.2 7.4c.9 1.5.9 3.3 0 4.8M16.8 16.6c-.9-1.5-.9-3.3 0-4.8"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Recovery wedge pillow</p><p class="rp-row-sub">Memory foam &middot; elevation support</p></div><div class="rp-row-right"><p class="rp-prod-price">&pound;44</p><div class="rp-prod-plus">+</div></div></div>
+</div>
+<div class="rp-cta-wrap"><div class="rp-cta-row"><span>5 items &middot; bundle saving</span><b>&pound;171 <s>&pound;198</s></b></div><div class="rp-cta-btn">Add all to recovery kit</div></div>
+</div><img class="rp-frame" src="phone-frame.png" alt=""></div>
+<p class="moblab"><b><i>04</i>Recovery kit</b>Delivered before she arrives.</p></div>
+
+  <div class="mobcell">
+<div class="realphone"><div class="rp-screen">
+<div class="rp-status"><span class="rp-time">9:41</span><div class="rp-icons"><svg style="width:4cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg style="width:4.67cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="rp-snapshot-hd"><div><p class="rp-title">Recovery Snapshot</p><p class="rp-sub" style="color:#56423e">Your progress at a glance</p></div><div class="rp-daybadge"><span class="rp-dot" style="width:1.5cqw;height:1.5cqw"></span><span>Day 5</span></div></div>
+<div class="rp-weeknav"><svg style="width:4.33cqw;height:4.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><b>This week</b><svg style="width:4.33cqw;height:4.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
+<div class="rp-grid">
+<div class="rp-grid-head"><span></span><span>M</span><span>T</span><span>W</span><span class="today">T</span><span>F</span><span>S</span><span>S</span></div>
+<div class="rp-grid-row"><span>Pain</span><div class="rp-cell" style="background:rgba(153,64,43,.85)"></div><div class="rp-cell" style="background:rgba(153,64,43,.85)"></div><div class="rp-cell" style="background:rgba(153,64,43,.5)"></div><div class="rp-cell" style="background:rgba(153,64,43,.5)"></div><div class="rp-cell" style="background:rgba(153,64,43,.24)"></div><div class="rp-cell" style="background:#efeae7"></div><div class="rp-cell" style="background:#efeae7"></div></div>
+<div class="rp-grid-row"><span>Swelling</span><div class="rp-cell" style="background:rgba(153,64,43,.85)"></div><div class="rp-cell" style="background:rgba(153,64,43,.85)"></div><div class="rp-cell" style="background:rgba(153,64,43,.5)"></div><div class="rp-cell" style="background:rgba(153,64,43,.5)"></div><div class="rp-cell" style="background:rgba(153,64,43,.5)"></div><div class="rp-cell" style="background:#efeae7"></div><div class="rp-cell" style="background:#efeae7"></div></div>
+<div class="rp-grid-row"><span>Energy</span><div class="rp-cell" style="background:rgba(107,138,99,.24)"></div><div class="rp-cell" style="background:rgba(107,138,99,.24)"></div><div class="rp-cell" style="background:rgba(107,138,99,.5)"></div><div class="rp-cell" style="background:rgba(107,138,99,.5)"></div><div class="rp-cell" style="background:rgba(107,138,99,.85)"></div><div class="rp-cell" style="background:#efeae7"></div><div class="rp-cell" style="background:#efeae7"></div></div>
+<div class="rp-grid-row"><span>Mobility</span><div class="rp-cell" style="background:rgba(107,138,99,.24)"></div><div class="rp-cell" style="background:rgba(107,138,99,.24)"></div><div class="rp-cell" style="background:rgba(107,138,99,.5)"></div><div class="rp-cell" style="background:rgba(107,138,99,.5)"></div><div class="rp-cell" style="background:rgba(107,138,99,.85)"></div><div class="rp-cell" style="background:#efeae7"></div><div class="rp-cell" style="background:#efeae7"></div></div>
+<div class="rp-legend"><div class="rp-legend-item"><span>Discomfort</span><div class="rp-legend-sw"><div style="background:rgba(153,64,43,.24)"></div><div style="background:rgba(153,64,43,.5)"></div><div style="background:rgba(153,64,43,.85)"></div></div></div><div class="rp-legend-item"><span>Vitality</span><div class="rp-legend-sw"><div style="background:rgba(107,138,99,.24)"></div><div style="background:rgba(107,138,99,.5)"></div><div style="background:rgba(107,138,99,.85)"></div></div></div></div>
+</div>
+<div class="rp-insight"><div class="rp-insight-hd"><b class="g">Pain &darr;</b><b class="k">Tracking ahead of schedule</b></div><p>Day 5 score 2/10, expected 4. You&rsquo;re recovering faster than most.</p><div class="rp-insight-stats"><div class="rp-insight-stat"><span>Severity</span><b>2/10</b><em>Expected: 4</em></div><div class="rp-insight-stat"><span>Trend</span><b>&darr; 78%</b><em>Since day 1</em></div></div></div>
+<div class="rp-drnote"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-drnote-bubble"><svg style="width:3.67cqw;height:3.67cqw;color:#99402b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/><path d="M12 6.6 14 4.6M12 6.6 10 4.6M12 17.4l2 2M12 17.4l-2 2"/></svg><span>Next check-in tomorrow 9am. Keep the compression garment on and ice 15 min every 2h.</span></div></div>
+</div><img class="rp-frame" src="phone-frame.png" alt=""></div>
+<p class="moblab"><b><i>05</i>Recovery</b>Tracked daily, surgeon on hand.</p></div>
+</div>
+</div>
+<p class="cap" style="margin:22px auto 0;text-align:center"><b>The whole journey, phone-native.</b> One conversation, start to recovery.</p>
+</div>
+
+<main class="cs-body">
+
+<!-- THE PRODUCT (image-led feature deep dives) -->
+<section class="cs-section reveal">
+<p class="cs-section-label">The Product</p>
+<h2 class="cs-h2">What Oia actually does.</h2>
+<p class="cs-cap">Matching a surgeon, screening for medical safety, gathering what a surgeon needs to assess a case, planning the trip and tracking recovery: normally four or five separate tools and a lot of admin. Here they're one guided conversation, handed off to WhatsApp whenever that's easier. These are the real screens, live on heyoia.com today.</p>
+
+<div class="feature">
+<div class="feat-media">
+<div class="device-phone-lg">
+<div class="realphone"><div class="rp-screen">
+<div class="rp-status"><span class="rp-time">9:41</span><div class="rp-icons"><svg style="width:4cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg style="width:4.67cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="rp-hd"><div class="rp-av"><svg style="width:4.33cqw;height:4.33cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div><p class="rp-hd-name">Oia</p><div class="rp-hd-status"><span class="rp-dot"></span><p class="rp-hd-sub">Online now</p></div></div></div>
+<div class="rp-body">
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">I&rsquo;ve matched you across Istanbul, Athens and Madrid &mdash; all within your budget. From June 22nd?</div></div>
+<div class="rp-msg end"><div class="rp-bubble patient">Yes! June 22nd is perfect. 🙌</div></div>
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">Your top match &mdash; JCI accredited, 1,200+ body contouring cases:</div></div>
+<div class="rp-clinic"><div class="rp-clinic-card"><div class="rp-clinic-img"><img decoding="async" src="clinic.webp" alt="Estetik International, Istanbul"><div class="rp-clinic-rating"><p>&#9733; 4.9</p></div><div class="rp-clinic-info"><p>Estetik International</p><p>Istanbul &middot; JCI Accredited</p></div></div><div class="rp-clinic-foot"><span>Body contouring package from</span><b>&pound;6,800</b></div></div></div>
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">Also matched for you:</div></div>
+<div class="rp-matchlist">
+<div class="rp-matchcard"><div class="top"><p>Kalos Aesthetics</p><p>&#9733; 4.8</p></div><div class="bot"><p>Athens &middot; EU Accredited</p><p>from &pound;7,200</p></div></div>
+<div class="rp-matchcard"><div class="top"><p>Cl&iacute;nica Aurora</p><p>&#9733; 4.8</p></div><div class="bot"><p>Madrid &middot; EU Accredited</p><p>from &pound;7,900</p></div></div>
+</div>
+</div>
+</div><img class="rp-frame" src="phone-frame.png" alt=""></div>
+</div>
+</div>
+<div class="feat-text">
+<div class="feat-num">01</div>
+<h3>Matching on outcomes, not marketing</h3>
+<p>Most surgeon directories rank by who paid for placement. SmartMatch instead shortlists surgeons using their verified case history and results, so the first list a patient sees is already trustworthy, no ads, no guesswork.</p>
+</div>
+</div>
+
+<div class="feature rev">
+<div class="feat-media">
+<div class="device-phone-lg">
+<div class="realphone"><div class="rp-screen">
+<div class="rp-status"><span class="rp-time">9:41</span><div class="rp-icons"><svg style="width:4cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg style="width:4.67cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="rp-hd"><div class="rp-av"><svg style="width:4.33cqw;height:4.33cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div><p class="rp-hd-name">Oia</p><div class="rp-hd-status"><span class="rp-dot"></span><p class="rp-hd-sub">Online now</p></div></div></div>
+<div class="rp-body">
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">Record a video &mdash; tell me everything, as you would your surgeon.</div></div>
+<div class="rp-msg end"><div class="rp-vidmsg">
+<div class="rp-vidmsg-thumb">
+<span class="rp-vidmsg-tag">Anonymised</span>
+<svg class="rp-vidmsg-play" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+<span class="rp-vidmsg-dur"><svg viewBox="0 0 24 24" fill="#fff" style="width:2.33cqw;height:2.33cqw"><path d="M8 5v14l11-7z"/></svg>0:47</span>
+</div>
+<p class="rp-vidmsg-cap">Video note &middot; Sent</p>
+</div></div>
+<div class="rp-msg"><div class="rp-av-sm"><svg style="width:2.67cqw;height:2.67cqw" viewBox="0 0 100 100" fill="#fff"><path d="M50 0C50 0 56 44 100 50C56 56 50 100 50 100C50 100 44 56 0 50C44 44 50 0 50 0Z"/></svg></div><div class="rp-bubble nia">Got it. Here&rsquo;s what our surgeons achieve for patients like you:</div></div>
+<div class="rp-lockcard">
+<div class="rp-lockcard-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div>
+<p class="rp-lockcard-title">Body-contouring results</p>
+<p class="rp-lockcard-sub">Shared privately in your consultation &mdash; every photo consent-signed by the patient.</p>
+<div class="rp-cta-btn">View in consultation</div>
+</div>
+</div>
+</div><img class="rp-frame" src="phone-frame.png" alt=""></div>
+</div>
+</div>
+<div class="feat-text">
+<div class="feat-num">02</div>
+<h3>A video, not a form</h3>
+<p>Typing out a medical history takes time, and text alone can't show a surgeon what they need to see. So instead of a form, Oia asks for one short video: the patient explains what they want, in their own words, exactly as they would in a consultation. It's faster than typing, and once the patient consents, that same footage is shared privately with their surgeon at consultation, so the clinical team can judge feasibility from the real thing, not a written description.</p>
+</div>
+</div>
+
+<div class="feature">
+<div class="feat-media">
+<div class="device-phone-lg">
+<div class="realphone"><div class="rp-screen">
+<div class="rp-status"><span class="rp-time">9:41</span><div class="rp-icons"><svg style="width:4cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg style="width:4.67cqw;height:4cqw" viewBox="0 0 24 24" fill="#1b1c1b"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="rp-panel-hd"><div><p class="rp-title">Madrid Journey</p><p class="rp-sub">Jun 22 &ndash; Jul 2 &middot; 10 nights</p></div><div class="rp-badge"><b>6 steps</b><span>3 confirmed</span></div></div>
+<div class="rp-stats">
+<div class="rp-stat"><svg style="width:5cqw;height:5cqw;color:#99402b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3.4 10.4l6.7 2.5 2.5 6.7L21 3Zm0 0-8.4 9.9"/></svg><b>Flights</b><span>Confirmed</span></div>
+<div class="rp-stat"><svg style="width:5cqw;height:5cqw;color:#99402b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6.2A1.8 1.8 0 0 1 4.8 10h14.4A1.8 1.8 0 0 1 21 11.8V18"/><path d="M3 15h18M3 18v2M21 18v2"/><path d="M6.8 10V8.6A1.6 1.6 0 0 1 8.4 7h3.2A1.6 1.6 0 0 1 13.2 8.6V10"/></svg><b>Hotel</b><span>Booked</span></div>
+<div class="rp-stat"><svg style="width:5cqw;height:5cqw;color:#99402b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3.8l2.4-5 3.6 10 2.4-5H21"/></svg><b>Surgery</b><span>Jun 24</span></div>
+</div>
+<div class="rp-list">
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3.4 10.4l6.7 2.5 2.5 6.7L21 3Zm0 0-8.4 9.9"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Fly to Madrid</p><p class="rp-row-sub">LHR 07:45 &rarr; MAD 11:20 &middot; transfer included</p></div><div class="rp-row-right"><p class="rp-pill ok">Confirmed</p><p class="rp-row-day">Jun 22</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6.2A1.8 1.8 0 0 1 4.8 10h14.4A1.8 1.8 0 0 1 21 11.8V18"/><path d="M3 15h18M3 18v2M21 18v2"/><path d="M6.8 10V8.6A1.6 1.6 0 0 1 8.4 7h3.2A1.6 1.6 0 0 1 13.2 8.6V10"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Villa Magna &middot; Suite 412</p><p class="rp-row-sub">Check-in 3pm &middot; nurse on call overnight</p></div><div class="rp-row-right"><p class="rp-pill brand">Booked</p><p class="rp-row-day">Jun 22</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V7l7-4 7 4v14"/><path d="M3 21h18"/><path d="M12 8.4v4.2M9.9 10.5h4.2"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Pre-op &middot; Dr. Navarro</p><p class="rp-row-sub">Cl&iacute;nica Aurora &middot; 9:00am</p></div><div class="rp-row-right"><p class="rp-pill ok">Confirmed</p><p class="rp-row-day">Jun 23</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3.8l2.4-5 3.6 10 2.4-5H21"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Surgery day</p><p class="rp-row-sub">Tummy tuck + breast lift &middot; 4 hrs</p></div><div class="rp-row-right"><p class="rp-pill warn">Scheduled</p><p class="rp-row-day">Jun 24</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5v-8.7"/><path d="M12 11.8C12 8.4 9.6 6 6.2 6c0 3.4 2.4 5.8 5.8 5.8Z"/><path d="M12 10.8c0-3 2.2-5.4 5.4-5.4C17.4 8.4 15 10.8 12 10.8Z"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Recovery &amp; daily check-ins</p><p class="rp-row-sub">Private nursing &middot; Oia monitoring</p></div><div class="rp-row-right"><p class="rp-pill pending">Planned</p><p class="rp-row-day">Jun 25&ndash;29</p></div></div>
+<div class="rp-row"><div class="rp-row-icon"><svg style="width:5.33cqw;height:5.33cqw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-9.6L12 5l8 6.4V21"/><path d="M9.5 21v-5.8h5V21"/></svg></div><div class="rp-row-body"><p class="rp-row-title">Fly home</p><p class="rp-row-sub">MAD &rarr; LHR &middot; medical clearance issued</p></div><div class="rp-row-right"><p class="rp-pill pending">Planned</p><p class="rp-row-day">Jul 2</p></div></div>
+</div>
+</div><img class="rp-frame" src="phone-frame.png" alt=""></div>
+</div>
+</div>
+<div class="feat-text">
+<div class="feat-num">03</div>
+<h3>The whole trip, managed end to end</h3>
+<p>Post-decision logistics are usually four separate bookings and constant chasing: flights, hotel, clinic and recovery care. Once a patient decides, Oia keeps going, booking all of it and coordinating recovery check-ins, still inside the same conversation, so nothing is left for the patient to chase down themselves.</p>
+</div>
+</div>
+</section>
+
+<!-- THE BEHAVIOUR -->
+<section class="cs-section reveal">
+<p class="cs-section-label">The Behaviour · designing what Oia is allowed to say</p>
+<h2 class="cs-h2">Her soul is a design file.</h2>
+<p class="cs-cap">When the interface is a conversation, the copy is the design. Oia's identity, voice and hard lines live in a Markdown file I write and version like any other design artefact, so non-engineers can retrain her by editing text, not code.</p>
+
+<div class="soulrow">
+  <div class="obeh-notes" style="margin-top:0">
+    <div class="on"><div class="n">1</div><p><b style="color:var(--fg);display:block;margin-bottom:2px">Never gives medical advice</b>Tracking is hers; judgement stays with the surgeon.</p></div>
+    <div class="on"><div class="n">2</div><p><b style="color:var(--fg);display:block;margin-bottom:2px">Never promises an outcome</b>"Realistic" is the operative word, always.</p></div>
+    <div class="on"><div class="n">3</div><p><b style="color:var(--fg);display:block;margin-bottom:2px">Never pushes a hesitant patient</b>Deciding to wait counts as a success.</p></div>
+    <div class="on"><div class="n">4</div><p><b style="color:var(--fg);display:block;margin-bottom:2px">Never fabricates</b>If she doesn't know, she says the team will confirm.</p></div>
+  </div>
+  <div class="soulfile">
+    <div class="sf-hd"><i></i><i></i><i></i><span>SOUL.md · who Oia is</span></div>
+    <div class="sf-body">
+      <span class="h">## What you never do: hard lines</span><br>
+      - <b>Never give medical advice.</b> <span class="c">Tracking is yours; judgement is the surgeon's.</span><br>
+      - <b>Never promise outcomes.</b> <span class="c">"Realistic" is the operative word.</span><br>
+      - <b>Never push a hesitant patient.</b> <span class="c">It is always fine to not proceed.</span><br>
+      - <b>Never fabricate.</b> <span class="c">If you don't know, say the team will confirm.</span><br>
+      <span class="h">## Voice &amp; tone</span><br>
+      - <b>Warm, calm, personal.</b> <span class="c">Short messages. One question at a time.</span><br>
+      - <b>Honest about what you are.</b> <span class="c">Openly an AI, that's the superpower.</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- BRAND -->
+<section class="cs-section reveal">
+<p class="cs-section-label">Brand · a discipline I love</p>
+<h2 class="cs-h2">Naming the calm and confident.</h2>
+<p class="cs-cap">Name, wordmark, colour, type and voice, mine end to end. The palette starts from terracotta: one clay, shaped into every role.</p>
+<div class="tlux">
+<div class="tlux-bg"></div>
+<div class="glass-card">
+<div class="gc-head">
+<svg class="gc-av" viewBox="0 0 60 60" aria-hidden="true"><defs><clipPath id="gcav"><circle cx="26" cy="30" r="19"/></clipPath></defs><circle cx="26" cy="30" r="19" fill="#a44b34"/><circle cx="38" cy="30" r="15" fill="#8a3a28"/><circle cx="38" cy="30" r="15" fill="#fff" clip-path="url(#gcav)"/></svg>
+<span class="gc-name">Oia</span>
+</div>
+<p class="gc-greet">Hi, I'm Oia, your personal concierge for planning treatment. There's no rush. When you're ready, I'll set everything up.</p>
+<div class="gc-btns"><span class="gc-primary">Yes, let's go</span><span class="gc-ghost">I have a question first</span></div>
+</div>
+</div>
+<p class="cap" style="text-align:center;margin-top:14px"><b>Technical Luxury</b>: frosted glass over a slow, living gradient.</p>
+
+<div class="brand-logo" style="max-width:220px;margin:40px auto 0"><img decoding="async" src="oia-logo.jpg" alt="OIA wordmark" loading="lazy"></div>
+
+<div class="bpalette" aria-label="Oia palette">
+<div class="bp-sw" style="background:#8B3A2B"><span class="bp-role">Primary</span><span class="bp-name">Rust Terracotta</span><span class="bp-hex">#8B3A2B</span></div>
+<div class="bp-sw" style="background:#766B67"><span class="bp-role">Secondary</span><span class="bp-name">Warm Stone</span><span class="bp-hex">#766B67</span></div>
+<div class="bp-sw" style="background:#1E1B1A"><span class="bp-role">Neutral</span><span class="bp-name">Charcoal Ink</span><span class="bp-hex">#1E1B1A</span></div>
+<div class="bp-sw light" style="background:#FBF9F8"><span class="bp-role">Canvas</span><span class="bp-name">Canvas Cream</span><span class="bp-hex">#FBF9F8</span></div>
+</div>
+<p class="cap" style="text-align:center;margin-top:12px">Terracotta, in four states: the clay a treatment journey is shaped from.</p>
+
+<div class="brand-grid" style="margin-top:36px">
+<div class="btype">
+<p class="bt-label">Display &middot; EB Garamond</p>
+<p class="bt-display">Realistic, always.</p>
+<p class="bt-label" style="margin-top:20px">Body &amp; UI &middot; Work Sans</p>
+<p class="bt-body">Never gives medical advice. Never promises an outcome.</p>
+</div>
+<div class="voice">
+<div class="tt">"Excellent choice. I've compared Dr Vance and Dr Rossi for you."</div>
+<p>The Oia voice: never a sales pitch.</p>
+</div>
+</div>
+</section>
+
+<!-- VOICE & MOTION -->
+<section class="cs-section reveal">
+<p class="cs-section-label">Voice &amp; Motion · the speaking mark</p>
+<h2 class="cs-h2">Direct conversation, made visible.</h2>
+<p class="cs-cap">Two circles that meet and move: an eclipse.</p>
+<div class="voice-wrap">
+<div class="orb-card">
+<div class="orb-glow"></div>
+<svg class="orb" viewBox="0 0 300 300" aria-hidden="true">
+<defs><clipPath id="clipA"><circle class="cA" cx="112" cy="150" r="70"/></clipPath></defs>
+<circle class="cA" cx="112" cy="150" r="70" fill="#a44b34"/>
+</svg>
+<div class="orb-glass" aria-hidden="true"></div>
+<svg class="orb" viewBox="0 0 300 300" aria-label="Oia speaking mark: two circles meeting, white where they intersect, the front circle in frosted peach glass">
+<circle class="cB" cx="188" cy="150" r="58" fill="#FCF9F7" clip-path="url(#clipA)"/>
+</svg>
+<svg class="orb-grain"><filter id="og"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#og)"/></svg>
+</div>
+<div class="voice-states">
+<div class="vstate"><svg class="mini" viewBox="0 0 60 60"><defs><clipPath id="m1"><circle cx="26" cy="30" r="19"/></clipPath></defs><circle cx="26" cy="30" r="19" fill="#a44b34"/><circle cx="38" cy="30" r="15" fill="#8a3a28"/><circle cx="38" cy="30" r="15" fill="#FCF9F7" clip-path="url(#m1)"/></svg><h4>Idle</h4><p>A 2% breath.</p></div>
+<div class="vstate"><svg class="mini" viewBox="0 0 60 60"><defs><clipPath id="m2"><circle cx="25" cy="30" r="19"/></clipPath></defs><circle cx="25" cy="30" r="19" fill="#a44b34"/><circle cx="36" cy="30" r="17" fill="#8a3a28"/><circle cx="36" cy="30" r="17" fill="#FCF9F7" clip-path="url(#m2)"/></svg><h4>Listening</h4><p>Swells as she types.</p></div>
+<div class="vstate"><svg class="mini" viewBox="0 0 60 60"><defs><clipPath id="m3"><circle cx="23" cy="30" r="19"/></clipPath></defs><circle cx="23" cy="30" r="19" fill="#a44b34"/><circle cx="40" cy="30" r="15" fill="#8a3a28"/><circle cx="40" cy="30" r="15" fill="#FCF9F7" clip-path="url(#m3)"/></svg><h4>Speaking</h4><p>Opens and closes.</p></div>
+<div class="vstate"><svg class="mini" viewBox="0 0 60 60"><defs><clipPath id="m4"><circle cx="26" cy="30" r="19"/></clipPath></defs><circle cx="26" cy="30" r="19" fill="#a44b34"/><circle cx="37" cy="30" r="15" fill="#8a3a28"/><circle cx="37" cy="30" r="15" fill="#FCF9F7" clip-path="url(#m4)"/><circle cx="30" cy="46" r="1.8" fill="#FCF9F7"/><circle cx="35" cy="46" r="1.8" fill="#FCF9F7"/><circle cx="40" cy="46" r="1.8" fill="#FCF9F7"/></svg><h4>Thinking</h4><p>Dots pulse.</p></div>
+<div class="vstate"><svg class="mini" viewBox="0 0 60 60"><circle cx="30" cy="30" r="20" fill="#a44b34"/></svg><h4>Confirming</h4><p>Closes to one circle.</p></div>
+<div class="vstate"><svg class="mini" viewBox="0 0 60 60"><defs><clipPath id="m5"><circle cx="26" cy="30" r="19"/></clipPath></defs><circle cx="26" cy="30" r="19" fill="#a44b34"/><circle cx="38" cy="30" r="15" fill="#8a3a28"/><circle cx="38" cy="30" r="15" fill="#FCF9F7" clip-path="url(#m5)"/></svg><h4>Still</h4><p>For consent moments.</p></div>
+</div>
+</div>
+</section>
+
+<!-- OUTCOME -->
+<section class="cs-section reveal">
+<p class="cs-section-label">Outcome</p>
+<div class="cs-metrics" style="margin-top:20px">
+<div class="cs-metric"><div class="cs-metric-num">Live</div><div class="cs-metric-label">Shipped 0→1 at heyoia.com</div></div>
+<div class="cs-metric"><div class="cs-metric-num">30+</div><div class="cs-metric-label">Patients &amp; surgeons interviewed</div></div>
+<div class="cs-metric"><div class="cs-metric-num">3,500+</div><div class="cs-metric-label">Real cases reviewed with surgeons</div></div>
+</div>
+<div class="cs-callout"><p>"The whole point was to turn a frightening search into a calm conversation."</p></div>
+</section>
+
+</main>
+
+<script>
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+
+<script>
+/* Defer videos: load & play only when scrolled into view */
+(function(){
+  var vids=[].slice.call(document.querySelectorAll('video[data-defer]'));
+  if(!vids.length)return;
+  if(!('IntersectionObserver' in window)){vids.forEach(function(v){var s=v.getAttribute('data-src');if(s){v.src=s;} v.play&&v.play().catch(function(){});});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var v=e.target;
+      if(e.isIntersecting){
+        var s=v.getAttribute('data-src');
+        if(s&&!v.src){v.src=s;}
+        var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){});
+      } else { v.pause&&v.pause(); }
+    });
+  },{rootMargin:'200px 0px',threshold:0.1});
+  vids.forEach(function(v){io.observe(v);});
+})();
+</script>
+
+<script>
+(function(){
+  const audio = document.getElementById('narrationAudio');
+  const playBtn = document.getElementById('playBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const progressTrack = document.getElementById('progressTrack');
+  const progressFill = document.getElementById('progressFill');
+  const timeLabel = document.getElementById('timeLabel');
+  const readToggle = document.getElementById('readToggle');
+  const summary = document.getElementById('audioSummary');
+
+  const PLAY_SVG = '<svg id="playIcon" width="11" height="12" viewBox="0 0 11 12"><path d="M1 1L10 6L1 11V1Z" fill="#141314"/></svg>';
+  const PAUSE_SVG = '<svg width="10" height="12" viewBox="0 0 10 12"><rect x="0" width="3" height="12" fill="#141314"/><rect x="7" width="3" height="12" fill="#141314"/></svg>';
+
+  function fmt(t){
+    if(!isFinite(t) || t < 0) return '0:00';
+    const m = Math.floor(t/60);
+    const s = Math.floor(t%60).toString().padStart(2,'0');
+    return m+':'+s;
+  }
+
+  function setPlaying(isPlaying){
+    playBtn.innerHTML = isPlaying ? PAUSE_SVG : PLAY_SVG;
+    playBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+  }
+
+  // very slow autoscroll while narration plays, cancelled if the person scrolls themselves
+  const AUTOSCROLL_SPEED = 70; // px per second
+  let scrollRAF = null, lastTS = null, userTookOver = false, scrollTarget = null;
+
+  function autoScrollStep(ts){
+    const el = document.scrollingElement || document.documentElement;
+    if (lastTS == null) {
+      lastTS = ts;
+      scrollTarget = el.scrollTop; // seed from the real position, not a rounded readback
+      scrollRAF = requestAnimationFrame(autoScrollStep);
+      return;
+    }
+    const dt = (ts - lastTS) / 1000;
+    lastTS = ts;
+    // accumulate in a plain float: scrollTop itself rounds to whole pixels, so adding
+    // a sub-pixel delta straight to el.scrollTop truncates to 0 and the page never moves
+    scrollTarget += AUTOSCROLL_SPEED * dt;
+    el.scrollTop = scrollTarget;
+    scrollRAF = requestAnimationFrame(autoScrollStep);
+  }
+  function startAutoScroll(){
+    if (scrollRAF || userTookOver) return;
+    lastTS = null;
+    scrollRAF = requestAnimationFrame(autoScrollStep);
+  }
+  function stopAutoScroll(){
+    if (scrollRAF) cancelAnimationFrame(scrollRAF);
+    scrollRAF = null;
+    lastTS = null;
+  }
+  function onUserScroll(){
+    if (scrollRAF) { userTookOver = true; stopAutoScroll(); }
+  }
+  window.addEventListener('wheel', onUserScroll, {passive:true});
+  window.addEventListener('touchmove', onUserScroll, {passive:true});
+
+  audio.addEventListener('loadedmetadata', () => {
+    timeLabel.textContent = fmt(0) + ' / ' + fmt(audio.duration);
+  });
+  audio.addEventListener('timeupdate', () => {
+    const pct = audio.duration ? (audio.currentTime/audio.duration*100) : 0;
+    progressFill.style.width = pct + '%';
+    timeLabel.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+  });
+  audio.addEventListener('play', () => { setPlaying(true); startAutoScroll(); });
+  audio.addEventListener('pause', () => { setPlaying(false); stopAutoScroll(); });
+  audio.addEventListener('ended', () => {
+    setPlaying(false);
+    stopAutoScroll();
+    progressFill.style.width = '0%';
+  });
+  audio.addEventListener('error', () => {
+    timeLabel.textContent = 'audio coming soon';
+  });
+
+  playBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      if (summary.classList.contains('open')) {
+        summary.classList.remove('open');
+        readToggle.classList.remove('active');
+        readToggle.textContent = '≡ Read as text';
+      }
+      if (audio.currentTime === 0) {
+        userTookOver = false;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      audio.play().catch(()=>{});
+    } else {
+      audio.pause();
+    }
+  });
+
+  stopBtn.addEventListener('click', () => {
+    audio.pause();
+    audio.currentTime = 0;
+    userTookOver = false;
+    progressFill.style.width = '0%';
+    timeLabel.textContent = fmt(0) + ' / ' + fmt(audio.duration);
+  });
+
+  progressTrack.addEventListener('click', (e) => {
+    if (!audio.duration) return;
+    const rect = progressTrack.getBoundingClientRect();
+    const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+    audio.currentTime = ratio * audio.duration;
+  });
+
+  readToggle.addEventListener('click', () => {
+    const open = summary.classList.toggle('open');
+    readToggle.classList.toggle('active', open);
+    readToggle.textContent = open ? '✕ Hide text' : '≡ Read as text';
+  });
+})();
+</script>
+
+</body>
+</html>
