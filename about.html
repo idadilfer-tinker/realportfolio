@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Ida Tinker</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#FDFDFC;color:#111;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+:root{--gutter:clamp(20px,4vw,56px);--max:1180px;--gray:#6b6b68;--panel:#F1F0EC;--border:#DEDDD7}
+
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:var(--max);margin:0 auto;padding:28px var(--gutter) 0;font-size:13px}
+.nav a{text-decoration:none}
+.nav a:hover{color:var(--gray)}
+
+.about-intro{max-width:var(--max);margin:0 auto;padding:56px var(--gutter) 48px;display:grid;grid-template-columns:340px 1fr;gap:64px}
+.portrait{width:100%;aspect-ratio:4/5;background:var(--panel);display:flex;align-items:center;justify-content:center}
+.about-links{margin-top:18px;display:flex;flex-direction:column;gap:6px}
+.about-links a{display:inline-flex;align-items:center;gap:7px;font-size:13px;text-decoration:none}
+.about-links a:hover{color:var(--gray)}
+
+.about-copy p{max-width:520px;font-size:14.5px;line-height:1.8;color:#1a1a1a}
+.about-copy p+p{margin-top:16px}
+
+.rule{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.rule-line{border-top:1px dashed var(--border)}
+
+.about-columns{max-width:var(--max);margin:0 auto;padding:48px var(--gutter) 96px;display:grid;grid-template-columns:repeat(2,1fr);gap:40px}
+.col-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:22px}
+.entry{margin-bottom:14px}
+.entry-org{font-family:Georgia,serif;font-size:19px;font-weight:400}
+
+@media(max-width:820px){
+  .about-intro{grid-template-columns:1fr;gap:28px}
+  .portrait{max-width:280px}
+  .about-columns{grid-template-columns:1fr;gap:32px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html">Ida Tinker</a>
+  <a href="index.html">↳ Work</a>
+</nav>
+
+<div class="about-intro">
+  <div>
+    <div class="portrait">
+      <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+        <circle cx="36" cy="26" r="14" stroke="#111" stroke-width="1.3"/>
+        <path d="M12 62c0-14 10.7-22 24-22s24 8 24 22" stroke="#111" stroke-width="1.3" fill="none"/>
+      </svg>
+    </div>
+    <div class="about-links">
+      <a href="https://www.linkedin.com/in/idadilfer/" target="_blank" rel="noopener">↳ LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="about-copy">
+    <p>Lead Product Designer based in London. Ten-plus years across B2B SaaS, health-tech, fintech, and marketplace products — for agencies running several client relationships at once, and as sole founder of my own venture, Oia. Both versions of that work taught the same lesson: the constraint changes every time, and the job is getting up to speed fast enough to be useful, then knowing when to lead and when to get out of the way.</p>
+    <p>Recently that's meant building my own tooling — using Claude Code and Cursor to prototype and pressure-test decisions — rather than waiting for engineering time to find out if an idea holds up.</p>
+  </div>
+</div>
+
+<div class="rule"><div class="rule-line"></div></div>
+
+<div class="about-columns">
+  <div>
+    <div class="col-label">Past Agencies</div>
+    <div class="entry"><div class="entry-org">Nexus</div></div>
+    <div class="entry"><div class="entry-org">VCCP</div></div>
+    <div class="entry"><div class="entry-org">BBA</div></div>
+    <div class="entry"><div class="entry-org">Koffeecup</div></div>
+    <div class="entry"><div class="entry-org">Field.io</div></div>
+  </div>
+
+  <div>
+    <div class="col-label">Client History</div>
+    <div class="entry"><div class="entry-org">Fidelity International</div></div>
+    <div class="entry"><div class="entry-org">Google</div></div>
+    <div class="entry"><div class="entry-org">Unilever</div></div>
+    <div class="entry"><div class="entry-org">Spotify</div></div>
+    <div class="entry"><div class="entry-org">Facebook</div></div>
+    <div class="entry"><div class="entry-org">Mercedes-Benz</div></div>
+  </div>
+</div>
+
+</body>
+</html>
