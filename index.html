@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ida Tinker — Product Design</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#FDFDFC;color:#111;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+:root{--gutter:clamp(20px,4vw,56px);--max:1180px;--gray:#6b6b68;--panel:#F1F0EC;--border:#DEDDD7}
+
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:var(--max);margin:0 auto;padding:28px var(--gutter) 0;font-size:13px}
+.nav a{text-decoration:none}
+.nav a:hover{color:var(--gray)}
+
+.bio{max-width:var(--max);margin:0 auto;padding:56px var(--gutter) 64px}
+.bio p{max-width:480px;font-size:14px;line-height:1.7;color:#222}
+
+.grid{max-width:var(--max);margin:0 auto;padding:0 var(--gutter) 96px;display:grid;grid-template-columns:1fr 1fr;gap:64px 32px}
+.card{text-decoration:none;color:#111;display:block}
+.card-title-row{font-size:13.5px;color:#111;margin-bottom:10px;line-height:1.5}
+.card-title-row strong{font-weight:600}
+.card-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tag{font-size:10px;letter-spacing:.03em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);border-radius:999px;padding:5px 12px}
+.card-media{width:100%;aspect-ratio:4/3;overflow:hidden;background:var(--panel)}
+.card-media img{width:100%;height:100%;object-fit:cover}
+
+@media(max-width:720px){.grid{grid-template-columns:1fr;gap:48px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html">Ida Tinker</a>
+  <a href="about.html">↳ About</a>
+</nav>
+
+<div class="bio">
+  <p>Product designer based in London. Ten-plus years across health-tech, fintech, and marketplace platforms — including agency stretches running several regulated clients in parallel, and current hands-on work building with Claude Code and Cursor. Most projects below were built as the design lead or founding designer, not a name on a larger team.</p>
+</div>
+
+<div class="grid">
+
+  <a href="oia.html" class="card">
+    <div class="card-title-row"><strong>OIA AI-led Surgery Concierge</strong> — Founding designer on a three-person team, turning patient and surgeon interviews into a product people could trust.</div>
+    <div class="card-tags">
+      <span class="tag">Founding Designer</span>
+      <span class="tag">Product + Brand</span>
+      <span class="tag">Health-tech</span>
+    </div>
+    <div class="card-media">
+      <img src="clinic.webp" alt="Oia app interface on a phone, clinic setting">
+    </div>
+  </a>
+
+</div>
+
+</body>
+</html>
