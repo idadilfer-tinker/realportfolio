@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connectd · Case Study · Ida Tinker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#FDFDFC;--fg:#141314;--fg2:#4a4642;--fg3:#8a857e;--accent:#C15A38;--accent2:#a8461f;
+--border:#E3DFD7;--border2:#EDEAE4;
+--max:1100px;--gutter:clamp(24px,5vw,80px);
+--font-body:'Libre Franklin',sans-serif;--font-display:'Tinos',serif;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* nav */
+.back-nav{position:fixed;top:0;left:0;right:0;z-index:101;height:52px;background:rgba(253,253,252,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 var(--gutter);gap:16px}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--fg2);text-decoration:none;font-size:11px;transition:color .18s}
+.back-link:hover{color:var(--fg)}.back-link svg{width:13px;height:13px}
+.back-nav-title{font-size:11px;color:var(--fg3);font-style:italic}
+.back-nav-right{margin-left:auto}
+.visit-link{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid rgba(193,90,56,.35);padding:5px 12px;border-radius:6px;transition:background .18s}
+.visit-link:hover{background:rgba(193,90,56,.1)}.visit-link svg{width:9px;height:9px}
+
+/* hero */
+.cs-hero{padding:130px var(--gutter) 36px;max-width:var(--max);margin:0 auto}
+.cs-eyebrow{font-size:9px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.cs-title{font-family:var(--font-display);font-size:clamp(1.8rem,3.6vw,3rem);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin-bottom:16px}
+.cs-dek{font-size:13px;line-height:1.6;color:var(--fg2);max-width:560px;margin-bottom:36px}
+.cs-meta{display:grid;grid-template-columns:repeat(4,auto);gap:32px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 0;max-width:860px}
+.cs-meta-label{font-size:8px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);margin-bottom:5px}
+.cs-meta-value{font-size:12.5px;color:var(--fg)}
+@media(max-width:640px){.cs-meta{grid-template-columns:repeat(2,auto)}}
+
+/* body / sections */
+.cs-body{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.cs-section{padding:44px 0;border-bottom:1px solid var(--border2)}
+.cs-section:last-of-type{border-bottom:none}
+.cs-section-label{font-size:8px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);margin-bottom:14px}
+.cs-h2{font-family:var(--font-display);font-size:clamp(1.1rem,1.8vw,1.5rem);font-weight:400;font-style:italic;line-height:1.25;letter-spacing:-.01em;margin-bottom:12px}
+.cs-cap{font-size:12.5px;line-height:1.7;color:var(--fg2);max-width:600px}
+.cs-cap b{color:var(--fg);font-weight:500}
+
+/* single full-bleed proof image */
+.figure{margin:24px 0 0;border-radius:12px;overflow:hidden;border:1px solid var(--border2);background:#f4f1ec}
+.figure img{width:100%;display:block}
+.cap{font-size:11px;color:var(--fg3);margin-top:10px;letter-spacing:.02em;max-width:760px}
+.cap b{color:var(--fg2);font-weight:500}
+
+/* outcome */
+.cs-metrics{display:flex;gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:10px;overflow:hidden;margin-top:16px;flex-wrap:wrap}
+.cs-metric{flex:1 1 160px;background:var(--bg);padding:22px 20px}
+.cs-metric-num{font-family:var(--font-display);font-size:1.6rem;color:var(--accent);line-height:1}
+.cs-metric-label{font-size:11px;color:var(--fg3);margin-top:6px}
+.cs-callout{margin-top:22px;border-left:2px solid var(--accent);padding:4px 0 4px 20px}
+.cs-callout p{font-family:var(--font-display);font-style:italic;font-size:.95rem;line-height:1.5;color:var(--fg)}
+
+/* no bottom CTA on purpose */
+</style>
+</head>
+<body>
+
+<nav class="back-nav">
+  <a class="back-link" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to portfolio
+  </a>
+  <span class="back-nav-title">Connectd · Case Study</span>
+  <div class="back-nav-right">
+    <a class="visit-link" href="https://connectd.co" target="_blank" rel="noopener">
+      Visit connectd.co
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+    </a>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <p class="cs-eyebrow">Lead Product Designer · SaaS Marketplace</p>
+  <h1 class="cs-title">Connectd</h1>
+  <p class="cs-dek">A three-sided professional marketplace connecting founders, investors and advisors, where the matching system only works if every user type trusts it. I owned research, UX/UI and the design system across all three surfaces.</p>
+  <div class="cs-meta">
+    <div><div class="cs-meta-label">Role</div><div class="cs-meta-value">Lead Product Designer</div></div>
+    <div><div class="cs-meta-label">Year</div><div class="cs-meta-value">2024</div></div>
+    <div><div class="cs-meta-label">Type</div><div class="cs-meta-value">SaaS, fintech marketplace</div></div>
+    <div><div class="cs-meta-label">Status</div><div class="cs-meta-value">Live</div></div>
+  </div>
+</header>
+
+<div class="cs-body">
+
+  <section class="cs-section">
+    <p class="cs-section-label">The challenge</p>
+    <h2 class="cs-h2">Asymmetric value, asymmetric risk.</h2>
+    <p class="cs-cap">Connectd connects startups and scaleups with the investors, board advisors and NEDs they need to grow. The core tension was asymmetric value: founders needed credible capital and expertise urgently, investors needed curated dealflow without noise, and advisors needed the right board seats, not volume. Getting the matching wrong in either direction destroyed trust on both sides, and on a network handling <b>£50M+ in funding connections</b>, trust is near impossible to rebuild. On top of that, 58% of founders were abandoning onboarding at step 3, role and stage selection, before the platform had a chance to show them any value.</p>
+    <figure class="figure"><img src="connectd-map.jpg" alt="Connectd three-sided marketplace system map"></figure>
+    <p class="cap"><b>System map.</b> Founders, investors and advisors: three distinct goals and mental models, mapped onto one coherent platform before a single screen was designed.</p>
+  </section>
+
+  <section class="cs-section">
+    <p class="cs-section-label">My approach</p>
+    <h2 class="cs-h2">Map the system before touching the UI.</h2>
+    <p class="cs-cap">I mapped the full three-sided system, user states, data flows, matching triggers and trust signals, before designing a single screen, then ran discovery interviews with VC partners, angel investors, founders and NEDs to surface how each group actually thought about their goals. From there I defined a role-based information architecture, one platform, three radically different surfaces, built on a single component system with 80% reuse across all user types. The matching interface surfaces weighted compatibility signals in plain language, giving both sides confidence without exposing the algorithm or creating false precision. A/B tests on messaging, card density and CTA placement, run with the data team, showed the explanation line, not the percentage, was what actually drove connection requests.</p>
+  </section>
+
+  <section class="cs-section">
+    <p class="cs-section-label">What I built</p>
+    <h2 class="cs-h2">Nine gates to one progressive screen.</h2>
+    <p class="cs-cap">Across the platform I designed role-based dashboards for founders, investors and advisors on one shared component system; a matching interface that moved compatibility signals above the fold after scroll maps showed users never reached them, lifting cross-side engagement 65% in six weeks; a founder onboarding redesign that replaced nine mandatory upfront questions with three plain-language ones, cutting step-3 drop-off from 58% to 19% and 30-day churn by 34%; plus a trust and credibility layer (verification badges, profile completeness, the handshake moment), a fundraising tracker and a board recruitment flow. The product is live at connectd.co.</p>
+    <figure class="figure"><img src="connectd-dashboard.png" alt="Connectd founder dashboard, production interface"></figure>
+    <p class="cap"><b>Founder home.</b> The production dashboard: onboarding action items, profile-completion heartbeat and Connectd AI, one question away. Live at connectd.co.</p>
+  </section>
+
+  <section class="cs-section">
+    <p class="cs-section-label">Outcome</p>
+    <div class="cs-metrics">
+      <div class="cs-metric"><div class="cs-metric-num">58→19%</div><div class="cs-metric-label">Founder onboarding drop-off at step 3</div></div>
+      <div class="cs-metric"><div class="cs-metric-num">65%</div><div class="cs-metric-label">Increase in cross-side engagement</div></div>
+      <div class="cs-metric"><div class="cs-metric-num">£50M+</div><div class="cs-metric-label">Funding connections facilitated</div></div>
+    </div>
+    <div class="cs-callout"><p>"Every connection that happened on the platform felt earned, and that's what made it trustworthy at scale."</p></div>
+  </section>
+
+</div>
+
+</body>
+</html>
